@@ -1,0 +1,2 @@
+model_checkpoint_path: "caption-modelbueno.hd"
+all_model_checkpoint_paths: "caption-modelbueno.hd"
