@@ -22,18 +22,18 @@ class CaptionModel:
         self.graph = tf.get_default_graph()
         tf.keras.backend.set_session(self.sess)
 
-        # Carga el modelo Inception para preprocesar las imágenes
+        # Load the Inception model to preprocess images
         encode_model = tf.keras.applications.inception_v3.InceptionV3(weights='imagenet')
         self.encode_model = tf.keras.models.Model(encode_model.input, encode_model.layers[-2].output)
         self.preprocess_input = tf.keras.applications.inception_v3.preprocess_input
 
-        # Carga el modelo que genera los caption
+        # Load the pretrained model to generate the captions
         model_path = os.path.join(root_path, "data", f'caption-modelbueno.h5f5')
         weights_path = os.path.join(root_path, "data", f'caption-model.hdf5')
         self.caption_model = tf.keras.models.load_model(model_path)
         self.caption_model.load_weights(weights_path)
 
-        # Carga el vocabulario
+        # Load the vocabulary
         test_path = os.path.join(root_path, "data", f'w2id.pkl')
         with open(test_path, "rb") as path:
             self.wordtoidx = pickle.load(path)
@@ -58,7 +58,7 @@ class CaptionModel:
             x = np.reshape(x, self.OUTPUT_DIM)
             return x
 
-    #funcion para generar la descripción
+    #Generate caption
     def generate_caption(self, photo):
         with self.graph.as_default():
             tf.keras.backend.set_session(self.sess)
